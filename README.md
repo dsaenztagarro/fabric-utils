@@ -11,6 +11,6 @@ python setup.py sdist upload
 
 ### Todo
 
-[ ] Refactoring to remove references to own projects
-[ ] Add documentation
-[ ] Add tests
+- [ ] Refactoring to remove references to own projects
+- [ ] Document available tasks
+- [ ] Add tests through travis
