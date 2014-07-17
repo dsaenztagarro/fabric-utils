@@ -2,4 +2,4 @@ env/
 bin/
 dist/
 build/
-.pyc
+**/*.pyc
