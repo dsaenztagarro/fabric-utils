@@ -1,6 +1,6 @@
 from fabric.api import (sudo, env, local, run, put, settings)
-from lib.fabric.utils import sudo_command, pgreen, pred, pcyan
 from fabric.contrib import django
+from lib.fabric.utils import sudo_command, pgreen, pred, pcyan
 import os
 import sys
 import time
@@ -18,9 +18,9 @@ def upload_source():
         local('hg archive %s.tar.gz' % env.release)
         run('mkdir -p %s' % env.release_path)
         put(env.release + '.tar.gz', env.path + '/packages/')
-        run(('cd %s; '
-            'tar --strip-components 1 -zxf ../../packages/%s.tar.gz')
-            % (env.release_path, env.release))
+        run(('cd {release_path}; '
+            'tar --strip-components 1 -zxf ../../packages/{release}.tar.gz').
+            format(release_path=env.release_path, release=env.release))
         local('rm %s.tar.gz' % (env.release))
     except:
         local('rm %s.tar.gz' % (env.release))
@@ -38,9 +38,9 @@ def symlink_current_release():
 
 def install_requirements():
     pgreen("*** Installing python packages...")
-    sudo(('source %s/env/bin/activate; '
-          'pip install -r %s/requirements.txt; ')
-         % (env.www_path, env.release_path))
+    sudo(('source {www}/env/bin/activate; '
+          'pip install -r {release_path}/requirements.txt; ').
+         format(www=env.www_path, release_path=env.release_path))
 
 
 def migrate():
@@ -69,12 +69,12 @@ def compress_static():
         os.pardir))
     django.settings_module('config.settings.%s' % env.environment)
     from django.conf import settings as django_settings
-    pcyan(('CURRENT PATH: %s\n'
-           'COMPRESS_ENABLED: %s\n'
-           'DEBUG: %s') % (
-               os.path.dirname(os.path.realpath(__file__)),
-               django_settings.COMPRESS_ENABLED,
-               django_settings.DEBUG))
+
+    current_path = os.path.dirname(os.path.realpath(__file__))
+    pcyan('CURRENT PATH: ' + current_path + '\n')
+    pcyan('COMPRESS_ENABLED: ' + django_settings.COMPRESS_ENABLED + '\n')
+    pcyan('DEBUG: ' + django_settings.DEBUG)
+
     if (django_settings.COMPRESS_ENABLED and not django_settings.DEBUG):
         pred('Compressing files..')
         command = './manage.py compress --settings="config.settings.%s"; '
@@ -88,12 +88,12 @@ def compile_messages():
     pgreen("*** Compiling messages...")
     django_bin_path = 'lib/python2.7/site-packages/django/bin'
     command = env.www_path + '/env/' + django_bin_path + '/django-admin.py'
-    sudo(('source %s/env/bin/activate; '
-          'cd %s/media; %s compilemessages; '
-          'cd %s/about; %s compilemessages; ')
-         % (env.www_path,
-         env.release_path, command,
-         env.release_path, command))
+    sudo(('source {www_path}/env/bin/activate; '
+          'cd {release_path}/media; {command} compilemessages; '
+          'cd {release_path}/about; {command} compilemessages; ').format(
+              www_path=env.www_path,
+              release_path=env.release_path,
+              command=command))
 
 
 def www_folder_permissions():
@@ -104,14 +104,16 @@ def www_folder_permissions():
 def install_site():
     pgreen("*** Configuring apache server...")
     apache_path = '%s/config/apache/%s' % (env.release_path, env.environment)
+
     pcyan('Create symlinks...')
-    sudo(('ln -s -f %s/cirujanos /etc/apache2/sites-available/cirujanos; '
-          'ln -s -f %s/cirujanos.wsgi /var/www/cirujanos/cirujanos.wsgi; ')
-         % (apache_path, apache_path))
+    sudo(('ln -s -f {apache_path}/cirujanos {sites_available}/cirujanos; '
+          'ln -s -f {apache_path}/cirujanos.wsgi {www}/cirujanos.wsgi; ').
+         format(apache_path=apache_path,
+                sites_available='/etc/apache2/sites-available',
+                www='/var/www/cirujanos'))
+
     pcyan('Enable apache site...')
-    sudo(('cd /etc/apache2/sites-available/; '
-          'a2ensite %s; ')
-         % env.project_name)
+    sudo('cd /etc/apache2/sites-available/; a2ensite %s; ' % env.project_name)
 
 
 def restart_webserver():
