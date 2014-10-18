@@ -1,6 +1,9 @@
+apache/
+config/
 env/
 bin/
 dist/
 build/
+fabfile.py
 *.pyc
-.ropeproject/
+.ropeproject

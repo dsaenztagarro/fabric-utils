@@ -1,5 +1,5 @@
 from fabric.api import task, env
-from lib.fabric.utils import sudo_command
+from fabric_utils.django.server.utils import sudo_command
 
 
 @task

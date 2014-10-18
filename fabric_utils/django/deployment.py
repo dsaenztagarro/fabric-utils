@@ -1,6 +1,7 @@
 from fabric.api import (sudo, env, local, run, put, settings)
 from fabric.contrib import django
-from lib.fabric.utils import sudo_command, pgreen, pred, pcyan
+from fabric_utils.utils import pgreen, pred, pcyan
+from fabric_utils.django.server.utils import sudo_command
 import os
 import sys
 import time
