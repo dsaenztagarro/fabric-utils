@@ -2,7 +2,6 @@ from fabric.api import (sudo, env, local, run, put, settings)
 from fabric.contrib import django
 from fabric_utils.utils import pgreen, pred, pcyan
 from fabric_utils.django.server.utils import sudo_command
-import os
 import sys
 import time
 
@@ -73,16 +72,16 @@ def compress_static():
     #     os.path.dirname(os.path.realpath(__file__)),
     #     os.pardir,
     #     os.pardir))
-    sys.path.append('%s/apps/cirujanos/releases/current' %
-                    env.shell_vars["home"])
+    current_path = '/home/vagrant/Development/projects/cirujanos'
+    sys.path.append(current_path)
 
     django.settings_module('config.settings.%s' % env.environment)
     from django.conf import settings as django_settings
 
-    current_path = os.path.dirname(os.path.realpath(__file__))
-    pcyan('CURRENT PATH: ' + current_path + '\n')
-    pcyan('COMPRESS_ENABLED: ' + django_settings.COMPRESS_ENABLED + '\n')
-    pcyan('DEBUG: ' + django_settings.DEBUG)
+    # current_path = os.path.dirname(os.path.realpath(__file__))
+    pcyan('CURRENT PATH: %s\n' % current_path)
+    pcyan('COMPRESS_ENABLED: %s\n' % django_settings.COMPRESS_ENABLED)
+    pcyan('DEBUG: %s\n' % django_settings.DEBUG)
 
     if (django_settings.COMPRESS_ENABLED and not django_settings.DEBUG):
         pred('Compressing files..')
