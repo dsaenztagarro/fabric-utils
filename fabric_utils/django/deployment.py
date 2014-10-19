@@ -39,8 +39,9 @@ def symlink_current_release():
 
 def install_requirements():
     pgreen("*** Installing python packages...")
+    # TODO: set as optional reinstall all packages through:
+    # 'pip freeze | xargs pip uninstall -y; '
     sudo(('source {www}/env/bin/activate; '
-          'pip freeze | xargs pip uninstall -y; '
           'pip install -r {release_path}/requirements.txt; ').
          format(www=env.www_path, release_path=env.release_path))
 
@@ -65,10 +66,15 @@ def install_static():
 def compress_static():
     pgreen('*** Check compress static files...')
     # Add project dir to PYTHONPATH so "config.settings" object is found
-    sys.path.append(os.path.join(
-        os.path.dirname(os.path.realpath(__file__)),
-        os.pardir,
-        os.pardir))
+
+    # TODO: Since this code is extracted from project it doesn't work anymore
+    # trying to get project path relative to python package path. Refactor!!
+    # sys.path.append(os.path.join(
+    #     os.path.dirname(os.path.realpath(__file__)),
+    #     os.pardir,
+    #     os.pardir))
+    sys.path.append(env.release_path)
+
     django.settings_module('config.settings.%s' % env.environment)
     from django.conf import settings as django_settings
 
