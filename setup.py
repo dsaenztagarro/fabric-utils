@@ -11,7 +11,7 @@ setup(
     version='0.0.3',
     author='David Saenz Tagarro',
     author_email='david.saenz.tagarro@gmail.com',
-    packages=['lib', 'lib.fabric'],
+    packages=['fabric_utils'],
     url='https://github.com/dsaenztagarro/fabric-utils',
     license='LICENSE.txt',
     description='Fabric utils for deployment management',
