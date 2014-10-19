@@ -73,7 +73,8 @@ def compress_static():
     #     os.path.dirname(os.path.realpath(__file__)),
     #     os.pardir,
     #     os.pardir))
-    sys.path.append(env.release_path)
+    sys.path.append('%s/apps/cirujanos/releases/current' %
+                    env.shell_vars["home"])
 
     django.settings_module('config.settings.%s' % env.environment)
     from django.conf import settings as django_settings
