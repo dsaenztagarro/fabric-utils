@@ -28,3 +28,7 @@ fab compress_static -c .fabricrc
 ### Requirements
 
 Install `pandoc` 
+
+### Changelog
+
+- 0.0.3: Repackaging tasks in a more concise way.

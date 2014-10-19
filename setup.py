@@ -8,7 +8,7 @@ except (IOError, ImportError):
 
 setup(
     name='fabric-utils',
-    version='0.0.2',
+    version='0.0.3',
     author='David Saenz Tagarro',
     author_email='david.saenz.tagarro@gmail.com',
     packages=['lib', 'lib.fabric'],
