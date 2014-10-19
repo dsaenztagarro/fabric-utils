@@ -40,6 +40,7 @@ def symlink_current_release():
 def install_requirements():
     pgreen("*** Installing python packages...")
     sudo(('source {www}/env/bin/activate; '
+          'pip freeze | xargs pip uninstall -y; '
           'pip install -r {release_path}/requirements.txt; ').
          format(www=env.www_path, release_path=env.release_path))
 
@@ -85,16 +86,25 @@ def compress_static():
         pred('WARNING: Django settings NOT allow compression')
 
 
-def compile_messages():
+def compile_messages(app_paths):
+    """
+    Compiles messages for the list of application paths
+    Parameters:
+        - app_paths: array of strings with paths of django applications inside
+            project which need to compile messages. Paths are relative to
+            release path
+    """
     pgreen("*** Compiling messages...")
     django_bin_path = 'lib/python2.7/site-packages/django/bin'
     command = env.www_path + '/env/' + django_bin_path + '/django-admin.py'
-    sudo(('source {www_path}/env/bin/activate; '
-          'cd {release_path}/media; {command} compilemessages; '
-          'cd {release_path}/about; {command} compilemessages; ').format(
-              www_path=env.www_path,
-              release_path=env.release_path,
-              command=command))
+
+    script = 'source {www_path}/env/bin/activate; '
+    for app_path in app_paths:
+        script += ('cd {release_path}/{app_path}; '
+                   '{command} compilemessages; ')
+
+    sudo(script).format(www_path=env.www_path, release_path=env.release_path,
+                        command=command)
 
 
 def www_folder_permissions():

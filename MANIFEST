@@ -3,9 +3,6 @@ LICENSE.txt
 README.md
 requirements.txt
 setup.py
-lib/__init__.py
-lib/fabric/__init__.py
-lib/fabric/db.py
-lib/fabric/deployment.py
-lib/fabric/server.py
-lib/fabric/utils.py
+fabric_utils/__init__.py
+fabric_utils/server.py
+fabric_utils/utils.py
