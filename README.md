@@ -3,6 +3,34 @@
 This python package allows me to manage deployments of Django application into
 Apache `mod_wsgi` server. Also it brings to me utils for local tasks.
 
+### Example of usage
+
+```python
+# fabfile.py
+from fabric_utils.django import deployment as dep
+
+# ...
+
+@task
+def deploy():
+    if env.environment is not "local":
+        require('hosts', provided_by=[local])
+        require('path')
+        dep.generate_release_path()
+        dep.upload_source()
+        dep.symlink_current_release()
+
+    dep.install_requirements()
+    dep.migrate()
+    dep.install_static()
+    dep.compress_static()
+    dep.compile_messages(['cirujanos/apps/media', 'cirujanos/apps/about'])
+    dep.www_folder_permissions()
+    dep.install_site()
+    dep.restart_webserver()
+```
+
+
 ### How to upload python package
 
 ```shell
