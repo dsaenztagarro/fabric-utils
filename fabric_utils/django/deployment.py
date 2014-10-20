@@ -110,7 +110,10 @@ def compile_messages(app_paths):
     script = 'source {www_path}/env/bin/activate; '
     for app_path in app_paths:
         script += ('cd {release_path}/{app_path}; '
-                   '{command} compilemessages; ')
+                   '{command} compilemessages; ').format(
+                       release_path=env.release_path,
+                       app_path=app_path,
+                       command=command)
 
     sudo(script).format(www_path=env.www_path, release_path=env.release_path,
                         command=command)
