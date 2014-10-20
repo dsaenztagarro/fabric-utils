@@ -107,16 +107,14 @@ def compile_messages(app_paths):
     django_bin_path = 'lib/python2.7/site-packages/django/bin'
     command = env.www_path + '/env/' + django_bin_path + '/django-admin.py'
 
-    script = 'source {www_path}/env/bin/activate; '
+    script = 'source %s/env/bin/activate; ' % env.www_path
     for app_path in app_paths:
         script += ('cd {release_path}/{app_path}; '
                    '{command} compilemessages; ').format(
                        release_path=env.release_path,
                        app_path=app_path,
                        command=command)
-
-    sudo(script).format(www_path=env.www_path, release_path=env.release_path,
-                        command=command)
+    sudo(script)
 
 
 def www_folder_permissions():

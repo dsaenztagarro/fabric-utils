@@ -48,6 +48,8 @@ pip install <PYTHON PACKAGE DIR>/dist/fabric-utils-0.0.2.tar.gz
 - [ ] Refactoring to remove references to own projects
 - [ ] Document available tasks
 - [ ] Add tests through travis
+- [ ] Create function export_django_admin returning string without vars to add
+to the rest of the sudo_command script
 
 ```shell
 fab compress_static -c .fabricrc
