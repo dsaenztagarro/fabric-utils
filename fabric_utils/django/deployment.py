@@ -44,6 +44,9 @@ def install_requirements():
           'pip install -r {release_path}/requirements.txt; ').
          format(www=env.www_path, release_path=env.release_path))
 
+    pgreen("*** Installing bower packages...")
+    sudo_command('bower install')
+
 
 def migrate():
     pgreen("*** Database migrations...")
