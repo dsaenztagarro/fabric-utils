@@ -45,7 +45,7 @@ def install_requirements():
          format(www=env.www_path, release_path=env.release_path))
 
     pgreen("*** Installing bower packages...")
-    sudo_command('bower install')
+    run('cd %s; bower install;' % env.release_path)
 
 
 def migrate():
