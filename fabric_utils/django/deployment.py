@@ -117,6 +117,19 @@ def compile_messages(app_paths):
     sudo(script)
 
 
+def install_site():
+    pgreen("*** Configuring apache server...")
+    apache_path = '%s/config/apache/%s' % (env.release_path, env.environment)
+    pcyan('Create symlinks...')
+    sudo(('ln -s -f %s/cirujanos /etc/apache2/sites-available/cirujanos; '
+          'ln -s -f %s/cirujanos.wsgi /var/www/cirujanos/cirujanos.wsgi; ')
+         % (apache_path, apache_path))
+    pcyan('Enable apache site...')
+    sudo(('cd /etc/apache2/sites-available/; '
+          'a2ensite %s; ')
+         % env.project_name)
+
+
 def www_folder_permissions():
     pgreen("*** Permission www folder...")
     sudo('chown www-data:www-data -R /var/www/cirujanos')
