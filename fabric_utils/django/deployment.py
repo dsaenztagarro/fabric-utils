@@ -130,6 +130,11 @@ def install_site():
          % env.project_name)
 
 
+def restart_webserver():
+    pgreen("*** Restarting web server...")
+    sudo('service apache2 restart; service apache2 reload; ')
+
+
 def www_folder_permissions():
     pgreen("*** Permission www folder...")
     sudo('chown www-data:www-data -R /var/www/cirujanos')

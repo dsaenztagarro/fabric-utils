@@ -50,6 +50,7 @@ pip install <PYTHON PACKAGE DIR>/dist/fabric-utils-0.0.2.tar.gz
 - [ ] Add tests through travis
 - [ ] Create function export_django_admin returning string without vars to add
 to the rest of the sudo_command script
+- [ ] Move install_site and restart_webserver to its own package
 
 ```shell
 fab compress_static -c .fabricrc
