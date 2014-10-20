@@ -51,7 +51,7 @@ def install_requirements():
 def migrate():
     pgreen("*** Database migrations...")
     command = ('python manage.py syncdb --noinput --settings="config.settings.{environment}";'
-               'python manage.py migrate --settings="config.settings.{environment}; ').format(environment=env.environment)
+               'python manage.py migrate --settings="config.settings.{environment}"; ').format(environment=env.environment)
     sudo_command(command, ())
 
 
