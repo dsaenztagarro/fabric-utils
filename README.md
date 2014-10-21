@@ -52,6 +52,7 @@ pip install <PYTHON PACKAGE DIR>/dist/fabric-utils-0.0.2.tar.gz
 to the rest of the sudo_command script
 - [ ] Move install_site and restart_webserver to its own package
 - [ ] Decorate commands with options like "settings"
+- [ ] Tasks to remove old deployments from server
 
 ```shell
 fab compress_static -c .fabricrc
