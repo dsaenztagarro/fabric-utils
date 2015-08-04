@@ -31,8 +31,10 @@ def restore_db():
     # Load new dump
     local("mysql -u {user} -p{password} -h {db_host} {db_name} < {dump_path}"
           .format(user='development', password='development',
+          # .format(user='production', password='production',
                   db_host='cirujanostoracicos.local',
                   db_name='cirujanos_development',
+                  # db_name='cirujanos_production',
                   dump_path='data/' + dump_file))
 
 

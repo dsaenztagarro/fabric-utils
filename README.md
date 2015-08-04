@@ -53,6 +53,7 @@ to the rest of the sudo_command script
 - [ ] Move install_site and restart_webserver to its own package
 - [ ] Decorate commands with options like "settings"
 - [ ] Tasks to remove old deployments from server
+- [ ] ApacheWSGIDeployer.deploy (debug option)
 
 ```shell
 fab compress_static -c .fabricrc
